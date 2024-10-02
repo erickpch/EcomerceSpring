@@ -53,7 +53,9 @@ public class ClienteRest {
 
 
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .header("Error-Message", e.getMessage())
+                    .build();
         }
     }
 
@@ -86,7 +88,9 @@ public class ClienteRest {
 
 
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .header("Error-Message", e.getMessage())
+                    .build();
         }
     }
 

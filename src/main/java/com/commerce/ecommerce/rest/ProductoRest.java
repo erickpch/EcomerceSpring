@@ -1,8 +1,10 @@
 package com.commerce.ecommerce.rest;
 
+import com.commerce.ecommerce.DTO.Ecommerce;
 import com.commerce.ecommerce.DTO.ProductoDTO;
 import com.commerce.ecommerce.model.Categoria;
 import com.commerce.ecommerce.model.Producto;
+import com.commerce.ecommerce.model.ProductoAlmacen;
 import com.commerce.ecommerce.service.CategoriaService;
 import com.commerce.ecommerce.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,6 +80,41 @@ public class ProductoRest {
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
+    }
+
+    @GetMapping("/ecommerce")
+    public ResponseEntity<List<Ecommerce>> traerTotal(){
+        List<Ecommerce> lista = new ArrayList<>();
+        try {
+            List<Producto> productos = productoService.findAll();
+            productos.forEach(p->{
+                Ecommerce nuevo = new Ecommerce();
+                nuevo.setDescripcion(p.getDescripcion());
+                nuevo.setNombre(p.getNombre());
+                nuevo.setFoto(p.getFoto());
+                nuevo.setId_categoria(p.getId_categoria().getId());
+                nuevo.setColor(p.getColor());
+                nuevo.setTalla(p.getTalla());
+                nuevo.setPrecio(p.getPrecio());
+                int cantidad = 0;
+                List<ProductoAlmacen> lista_almacen = p.getId_producto_almacen();
+                int i = 0;
+                while(i<lista_almacen.size()){
+                    cantidad+= lista_almacen.get(i).getCantidad();
+                    i++;
+                }
+                nuevo.setCantidad(cantidad);
+                lista.add(nuevo);
+
+            });
+            return ResponseEntity.ok(lista);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .header("Error-Message", e.getMessage())
+                    .build();
+        }
+
     }
 
 
