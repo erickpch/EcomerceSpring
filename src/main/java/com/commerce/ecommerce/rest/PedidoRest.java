@@ -7,6 +7,7 @@ import com.commerce.ecommerce.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@PreAuthorize("hasRole('pedido')")
 @RestController
 @RequestMapping("/pedido")
 public class PedidoRest {

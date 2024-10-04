@@ -49,8 +49,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/rol/crear").permitAll();
                     auth.requestMatchers("/usuario/crear").permitAll();
                     auth.requestMatchers("/login").permitAll();
-                    auth.anyRequest().permitAll();
-                    //auth.anyRequest().authenticated();
+                    //auth.anyRequest().permitAll();
+                    auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -68,7 +68,9 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE");
+                registry.addMapping("/**")
+                        .allowedOrigins("*")  // Cambia esto según sea necesario
+                        .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }

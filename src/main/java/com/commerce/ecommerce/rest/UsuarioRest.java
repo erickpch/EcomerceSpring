@@ -59,7 +59,7 @@ public class UsuarioRest {
             nuevoUsuario.setId_rol(rol);  // Asigna el rol encontrado
 
             Usuario nuevo = usuarioService.save(nuevoUsuario);
-            return ResponseEntity.created(new URI("/aulas/crear/" + nuevo.getId())).body(nuevo);
+            return ResponseEntity.ok(nuevoUsuario);
 
 
         }catch (Exception e){
